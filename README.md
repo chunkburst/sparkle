@@ -1,5 +1,7 @@
 # Sparkle
 
+<h3 align="center">Origin: <a href="https://github.com/xishang0128/sparkle">Sparkle</a> </h3>
+
 <h3 align="center">Another <a href="https://github.com/MetaCubeX/mihomo">Mihomo</a> GUI</h3>
 
 <p align="center">

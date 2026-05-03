@@ -18,57 +18,8 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        include:
-          - os: windows-latest
-            arch: x64
-            format: 7z
-          - os: windows-latest
-            arch: x64
-            format: nsis
-          - os: windows-latest
-            arch: arm64
-            format: 7z
-          - os: windows-latest
-            arch: arm64
-            format: nsis
-
-          - os: ubuntu-latest
-            arch: x64
-            format: deb
-          - os: ubuntu-latest
-            arch: x64
-            format: rpm
-          - os: ubuntu-latest
-            arch: x64
-            format: pacman
-          - os: ubuntu-latest
-            arch: arm64
-            format: deb
-          - os: ubuntu-latest
-            arch: arm64
-            format: rpm
-          - os: ubuntu-latest
-            arch: arm64
-            format: pacman
-          - os: ubuntu-latest
-            arch: loong64
-            format: deb
-          - os: ubuntu-latest
-            arch: loong64
-            format: rpm
-          - os: ubuntu-latest
-            arch: loong64
-            format: pacman
-
-          - os: macos-latest
-            arch: x64
-          - os: macos-latest
-            arch: arm64
-
-    name: Build ${{ matrix.os }}-${{ matrix.arch }}${{ matrix.format && '-' || '' }}${{ matrix.format || '' }}
+    runs-on: windows-latest
+    name: Build windows-x64-7z
 
     steps:
       - name: Checkout
@@ -99,78 +50,23 @@ jobs:
 
           jq --arg version "$RELEASE_VERSION" '.version = $version' package.json > tmp.json && mv tmp.json package.json
 
-      - name: Keep product name lowercase on Linux
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sed -i "s/productName: Sparkle/productName: sparkle/" electron-builder.yml
-
-      - name: Install Build Tools
-        if: matrix.os == 'ubuntu-latest' && matrix.format == 'pacman'
-        run: |
-          sudo apt-get update && sudo apt-get install -y libarchive-tools fakeroot
-
-      - name: Adaptation to the loongarch64 architecture
-        env:
-          npm_config_arch: ${{ matrix.arch }}
-          npm_config_target_arch: ${{ matrix.arch }}
-        if: matrix.os == 'ubuntu-latest' && matrix.arch == 'loong64'
-        shell: bash
-        run: |
-          export ELECTRON_MIRROR="https://github.com/darkyzhou/electron-loong64/releases/download/"
-          export electron_use_remote_checksums=1
-          SKIP_PREPARE=1 pnpm install electron@37.2.5 -D
-          pnpm remove electron-builder
-          SKIP_PREPARE=1 pnpm install @loongdotjs/electron-builder@26.0.12-1 -D
-
       - name: Install Dependencies and Prepare
-        env:
-          npm_config_arch: ${{ matrix.arch }}
-          npm_config_target_arch: ${{ matrix.arch }}
         shell: bash
         run: |
           SKIP_PREPARE=1 pnpm install
-          pnpm prepare --${{ matrix.arch }}
+          pnpm prepare --x64
 
       - name: Build
-        env:
-          npm_config_arch: ${{ matrix.arch }}
-          npm_config_target_arch: ${{ matrix.arch }}
         shell: bash
-        run: |
-          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            pnpm build:win ${{ matrix.format }} --${{ matrix.arch }}
-          elif [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
-            if [[ "${{ matrix.arch }}" == "loong64" ]]; then
-              export ELECTRON_MIRROR="https://github.com/darkyzhou/electron-loong64/releases/download/"
-              export electron_use_remote_checksums=1
-              pnpm build:linux ${{ matrix.format }} --${{ matrix.arch }}
-            else
-              pnpm build:linux ${{ matrix.format }} --${{ matrix.arch }}
-            fi
-          else
-            pnpm build:mac --${{ matrix.arch }}
-          fi
+        run: pnpm build:win 7z --x64
 
       - name: Add Portable Flag
-        if: matrix.os == 'windows-latest' && matrix.format == '7z'
         shell: pwsh
         run: |
           New-Item -Path "PORTABLE" -ItemType File
           Get-ChildItem dist/*portable.7z | ForEach-Object {
             7z a $_.FullName PORTABLE
           }
-
-      - name: Magic build for AOSC OS(loongarch64)
-        if: matrix.os == 'ubuntu-latest' && matrix.format == 'deb' && matrix.arch == 'loong64'
-        shell: bash
-        run: |
-          set -e
-          VERSION=$(jq -r '.version' package.json)
-          mkdir workdir
-          fakeroot dpkg-deb -R dist/sparkle-linux-${VERSION}-loong64.deb workdir
-          fakeroot sed -i 's/^Architecture: .*/Architecture: loongarch64/' workdir/DEBIAN/control
-          fakeroot dpkg-deb -b workdir dist/sparkle-linux-${VERSION}-loongarch64.deb
-          rm -rf workdir
 
       - name: Create Changelog
         env:
@@ -185,11 +81,10 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}-${{ matrix.arch }}${{ matrix.format && '-' || '' }}${{ matrix.format || '' }}
+          name: windows-x64-7z
           path: |
-            dist/sparkle*
-            !dist/sparkle.app.plist
-            !dist/sparkle*blockmap*
+            dist/xuanlian-vpn*
+            !dist/xuanlian-vpn*.blockmap*
             latest.yml
             changelog.md
 
@@ -242,61 +137,8 @@ jobs:
           fetch-depth: '0'
           fetch-tags: 'true'
 
-      - name: Generate Changelog
-        env:
-          API_URL: ${{ secrets.API_URL }}
-          API_KEY: ${{ secrets.API_KEY }}
-        run: |
-          TEXT=$(git log $(jq -r .version package.json)..HEAD --pretty=format:%s | grep -v '[0-9]\+\.[0-9]\+\.[0-9]\+$' | sed ':a;N;$!ba;s/\n/\\n/g')
-          QUESTION="Translate into Chinese:\n"""\n$TEXT\n""""
-          PAYLOAD=$(cat <<EOF
-          {
-            "stream": false,
-            "model": "gpt-5-mini",
-            "messages": [
-              {
-                "role": "system",
-                "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."
-              },
-              {
-                "role": "user",
-                "content": "$QUESTION"
-              }
-            ]
-          }
-          EOF
-          )
-          RESPONSE=$(curl -s -X POST "$API_URL/v1/chat/completions" \
-            -H "Authorization: Bearer $API_KEY" \
-            -H "Content-Type: application/json" \
-            -d "$PAYLOAD" \
-            --max-time 30)
-          echo '# 更新日志' > changelog.md
-          echo $RESPONSE | jq .choices[0].message.content -r | sed 's/\\n/\n/g' | sed 's/^/ - /g' >> changelog.md
-
-      - name: Update Version
-        run: |
-          INPUT_VERSION="${{ github.event.inputs.version }}"
-          CLEAN_VERSION=$(echo "$INPUT_VERSION" | sed 's/^v//')
-          if [[ ! "$CLEAN_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Invalid version format: $INPUT_VERSION"
-            exit 1
-          fi
-          jq --arg version "$CLEAN_VERSION" '.version = $version' package.json > tmp.json && mv tmp.json package.json
-
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git add package.json
-          git commit -m "update version to $CLEAN_VERSION"
-          git push
-
-      - name: Install Dependencies and Updater
-        run: |
-          npm install -g pnpm
-          SKIP_PREPARE=1 pnpm install
-          pnpm updater
-
-      - uses: actions/download-artifact@v4
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
         with:
           path: bin/
           merge-multiple: true
@@ -313,7 +155,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.version != '' && github.event.inputs.version || github.ref }}
-          body_path: changelog.md
+          body_path: bin/changelog.md
           files: |
-            latest.yml
+            bin/latest.yml
             bin/dist/*

@@ -17,9 +17,9 @@ let downloadCancelToken: CancelTokenSource | null = null
 export async function checkUpdate(): Promise<AppVersion | undefined> {
   const { 'mixed-port': mixedPort = 7890 } = await getControledMihomoConfig()
   const { updateChannel = 'stable' } = await getAppConfig()
-  let url = 'https://github.com/xishang0128/sparkle/releases/latest/download/latest.yml'
+  let url = 'https://github.com/chunkburst/sparkle/releases/latest/download/latest.yml'
   if (updateChannel == 'beta') {
-    url = 'https://github.com/xishang0128/sparkle/releases/download/pre-release/latest.yml'
+    url = 'https://github.com/chunkburst/sparkle/releases/download/pre-release/latest.yml'
   }
   const res = await axios.get(url, {
     headers: { 'Content-Type': 'application/octet-stream' },
@@ -47,12 +47,12 @@ export async function downloadAndInstallUpdate(version: string): Promise<void> {
   if (version.includes('beta')) {
     releaseTag = 'pre-release'
   }
-  const baseUrl = `https://github.com/xishang0128/sparkle/releases/download/${releaseTag}/`
+  const baseUrl = `https://github.com/chunkburst/sparkle/releases/download/${releaseTag}/`
   const fileMap = {
-    'win32-x64': `sparkle-windows-${version}-x64-setup.exe`,
-    'win32-arm64': `sparkle-windows-${version}-arm64-setup.exe`,
-    'darwin-x64': `sparkle-macos-${version}-x64.pkg`,
-    'darwin-arm64': `sparkle-macos-${version}-arm64.pkg`
+    'win32-x64': `xuanlian-vpn-windows-${version}-x64-setup.exe`,
+    'win32-arm64': `xuanlian-vpn-windows-${version}-arm64-setup.exe`,
+    'darwin-x64': `xuanlian-vpn-macos-${version}-x64.pkg`,
+    'darwin-arm64': `xuanlian-vpn-macos-${version}-arm64.pkg`
   }
   let file = fileMap[`${process.platform}-${process.arch}`]
   if (isPortable()) {
@@ -63,7 +63,7 @@ export async function downloadAndInstallUpdate(version: string): Promise<void> {
   }
   downloadCancelToken = axios.CancelToken.source()
 
-  const apiUrl = `https://api.github.com/repos/xishang0128/sparkle/releases/tags/${releaseTag}`
+  const apiUrl = `https://api.github.com/repos/chunkburst/sparkle/releases/tags/${releaseTag}`
   const apiRequestConfig: AxiosRequestConfig = {
     headers: { Accept: 'application/vnd.github.v3+json' },
     ...(mixedPort != 0 && {

@@ -73,11 +73,7 @@ const UpdaterModal: React.FC<Props> = (props) => {
               size="sm"
               className="flex app-nodrag"
               onPress={() => {
-                if (version.includes('beta')) {
-                  open('https://github.com/xishang0128/sparkle/releases/tag/pre-release')
-                  return
-                }
-                open(`https://github.com/xishang0128/sparkle/releases/tag/${version}`)
+                // 下载最新版本
               }}
             >
               前往下载

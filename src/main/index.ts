@@ -270,7 +270,7 @@ powerMonitor.on('shutdown', async () => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('sparkle.app')
+  electronApp.setAppUserModelId('com.xuanlian.vpn')
   try {
     await initPromise
   } catch (e) {
@@ -339,7 +339,7 @@ app.whenReady().then(async () => {
 })
 
 async function handleDeepLink(url: string): Promise<void> {
-  if (!url.startsWith('clash://') && !url.startsWith('mihomo://') && !url.startsWith('sparkle://'))
+  if (!url.startsWith('clash://') && !url.startsWith('mihomo://') && !url.startsWith('xuanlian://'))
     return
 
   const urlObj = new URL(url)

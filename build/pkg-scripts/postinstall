@@ -1,9 +1,9 @@
 #!/bin/sh
 
-chown root:admin $2/Sparkle.app/Contents/Resources/sidecar/mihomo
-chown root:admin $2/Sparkle.app/Contents/Resources/sidecar/mihomo-alpha
-chmod +s $2/Sparkle.app/Contents/Resources/sidecar/mihomo
-chmod +s $2/Sparkle.app/Contents/Resources/sidecar/mihomo-alpha
+chown root:admin $2/炫连VPN.app/Contents/Resources/sidecar/mihomo
+chown root:admin $2/炫连VPN.app/Contents/Resources/sidecar/mihomo-alpha
+chmod +s $2/炫连VPN.app/Contents/Resources/sidecar/mihomo
+chmod +s $2/炫连VPN.app/Contents/Resources/sidecar/mihomo-alpha
 
 
 exit 0

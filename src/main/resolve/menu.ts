@@ -169,26 +169,13 @@ export async function createApplicationMenu(): Promise<void> {
       label: '帮助',
       submenu: [
         {
-          label: '了解更多',
-          click: () => {
-            shell.openExternal('https://github.com/xishang0128/sparkle')
-          }
-        },
-        {
-          label: '报告问题',
-          click: () => {
-            shell.openExternal('https://github.com/xishang0128/sparkle/issues')
-          }
-        },
-        { type: 'separator' },
-        {
           label: '关于',
           click: () => {
             dialog.showMessageBox(mainWindow!, {
               type: 'info',
-              title: '关于 Sparkle',
-              message: 'Sparkle',
-              detail: `版本：${app.getVersion()}\n一个基于 Electron 的代理工具`,
+              title: '关于 炫连VPN',
+              message: '炫连VPN',
+              detail: `版本：${app.getVersion()}\n安全、快速、稳定的网络加速工具`,
               buttons: ['确定']
             })
           }

@@ -146,7 +146,7 @@ const ServiceModal: React.FC<Props> = (props) => {
       }}
     >
       <ModalContent className="w-[450px]">
-        <ModalHeader className="flex flex-col gap-1">Sparkle 服务管理</ModalHeader>
+        <ModalHeader className="flex flex-col gap-1">炫连VPN 服务管理</ModalHeader>
         <ModalBody>
           <div className="space-y-4">
             <Card

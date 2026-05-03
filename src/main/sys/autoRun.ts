@@ -6,7 +6,7 @@ import { existsSync } from 'fs'
 import { promisify } from 'util'
 import path from 'path'
 
-const appName = 'sparkle'
+const appName = 'xuanlian-vpn'
 
 const taskXml = `<?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
@@ -99,13 +99,13 @@ export async function enableAutoRun(): Promise<void> {
   if (process.platform === 'linux') {
     let desktop = `
 [Desktop Entry]
-Name=sparkle
+Name=炫连VPN
 Exec=${exePath()} %U
 Terminal=false
 Type=Application
-Icon=sparkle
-StartupWMClass=sparkle
-Comment=Sparkle
+Icon=xuanlian-vpn
+StartupWMClass=xuanlian-vpn
+Comment=炫连VPN - 安全、快速、稳定的网络加速工具
 Categories=Utility;
 `
 

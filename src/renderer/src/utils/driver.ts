@@ -33,7 +33,7 @@ export async function createDriver(navigate: NavigateFunction): Promise<Driver> 
       {
         element: 'none',
         popover: {
-          title: '欢迎使用 Sparkle',
+          title: '欢迎使用 炫连VPN',
           description:
             '这是一份交互式使用教程，如果您已经完全熟悉本软件的操作，可以直接点击右上角关闭按钮，后续您可以随时从设置中打开本教程',
           side: 'over',
@@ -89,7 +89,7 @@ export async function createDriver(navigate: NavigateFunction): Promise<Driver> 
         popover: {
           title: '订阅导入',
           description:
-            'Sparkle 支持多种订阅导入方式，在此输入订阅链接，点击导入即可导入您的订阅配置，如果您的订阅需要代理才能更新，请勾选"代理"再点击导入，当然这需要已经有一个可以正常使用的订阅才可以',
+            '炫连VPN 支持多种线路导入方式，在此输入线路链接，点击导入即可导入您的加速线路配置，如果您的线路需要通过代理更新，请勾选"代理"再点击导入',
           side: 'bottom',
           align: 'start'
         }
@@ -99,7 +99,7 @@ export async function createDriver(navigate: NavigateFunction): Promise<Driver> 
         popover: {
           title: 'Sub-Store',
           description:
-            'Sparkle 深度集成了 Sub-Store，您可以点击该按钮进入 Sub-Store 或直接导入您通过 Sub-Store 管理的订阅，Sparkle 默认使用内置的 Sub-Store 后端，如果您有自建的 Sub-Store 后端，可以在设置页面中配置，如果您不使用 Sub-Store 也可以在设置页面中关闭',
+            '炫连VPN 内置线路管理功能，您可以点击该按钮进入线路市场或直接导入您通过云端管理的线路配置，炫连VPN 默认使用内置线路服务，如果您有自己的线路后端可以在设置页面中配置',
           side: 'bottom',
           align: 'start'
         }
@@ -160,7 +160,7 @@ export async function createDriver(navigate: NavigateFunction): Promise<Driver> 
         popover: {
           title: '虚拟网卡设置',
           description:
-            '这里可以更改虚拟网卡相关设置，Sparkle 理论上已经完全解决权限问题，如果您的虚拟网卡仍然不可用，可以尝试重设防火墙（Windows）或手动授权内核（MacOS/Linux）后重启内核',
+            '这里可以更改虚拟网卡相关设置，炫连VPN 已经解决权限问题，如果您的虚拟网卡仍然不可用，可以尝试重设防火墙（Windows）或手动授权内核（MacOS/Linux）后重启加速引擎',
           side: 'bottom',
           align: 'start'
         }
@@ -170,7 +170,7 @@ export async function createDriver(navigate: NavigateFunction): Promise<Driver> 
         popover: {
           title: '覆写',
           description:
-            'Sparkle 提供强大的覆写功能，可以对您导入的订阅配置进行个性化修改，如添加规则、自定义代理组等，您可以直接导入别人写好的覆写文件，也可以自己动手编写，<b>编辑好覆写文件一定要记得在需要覆写的订阅上启用</b>，覆写文件的语法请参考 <a href="https://mihomo.party/docs/guide/override" target="_blank">官方文档</a>',
+            '炫连VPN 提供强大的高级配置功能，可以对您导入的线路配置进行个性化修改，如添加规则、自定义加速分组等，您可以直接导入配置文件，也可以自己动手编写，<b>编辑好配置文件一定要记得在需要生效的线路上启用</b>，配置语法请参考 <a href="https://mihomo.party/docs/guide/override" target="_blank">官方文档</a>',
           side: 'right',
           align: 'center'
         }

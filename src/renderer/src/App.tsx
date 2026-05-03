@@ -269,11 +269,11 @@ const App: React.FC = () => {
     >
       {showQuitConfirm && (
         <ConfirmModal
-          title="确定要退出 Sparkle 吗？"
+          title="确定要退出 炫连VPN 吗？"
           description={
             <div>
               <p></p>
-              <p className="text-sm text-gray-500 mt-2">退出后代理功能将停止工作</p>
+              <p className="text-sm text-gray-500 mt-2">退出后VPN加速功能将停止工作</p>
               <p className="text-sm text-gray-400 mt-1">
                 快按两次或长按 {platform === 'darwin' ? '⌘Q' : 'Ctrl+Q'} 可直接退出
               </p>
@@ -383,7 +383,7 @@ const App: React.FC = () => {
               className={`flex justify-between p-2 ${!useWindowFrame && platform === 'darwin' ? 'ml-[60px]' : ''}`}
             >
               <div className="flex ml-1">
-                <h3 className="text-lg font-bold leading-[32px]">Sparkle</h3>
+                <h3 className="text-lg font-bold leading-[32px] bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">炫连VPN</h3>
               </div>
               {latest && latest.version && <UpdaterButton latest={latest} />}
               <Button

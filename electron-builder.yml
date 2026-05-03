@@ -1,5 +1,5 @@
-appId: sparkle.app
-productName: Sparkle
+appId: com.xuanlian.vpn
+productName: 炫连VPN
 directories:
   buildResources: build
 files:
@@ -19,11 +19,11 @@ extraResources:
   - from: './extra/'
     to: ''
 protocols:
-  name: 'Sparkle URI Scheme'
+  name: '炫连VPN URI Scheme'
   schemes:
     - 'clash'
     - 'mihomo'
-    - 'sparkle'
+    - 'xuanlian'
 win:
   target:
     - nsis
@@ -56,13 +56,13 @@ pkg:
 linux:
   desktop:
     entry:
-      Name: Sparkle
-      MimeType: 'x-scheme-handler/clash;x-scheme-handler/mihomo;x-scheme-handler/sparkle'
+      Name: 炫连VPN
+      MimeType: 'x-scheme-handler/clash;x-scheme-handler/mihomo;x-scheme-handler/xuanlian'
   target:
     - deb
     - rpm
     - pacman
-  maintainer: xishang0128
+  maintainer: CCB
   category: Utility
   artifactName: ${name}-linux-${version}-${arch}.${ext}
 deb:

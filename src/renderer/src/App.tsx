@@ -32,7 +32,7 @@ import { applyTheme, checkUpdate, setNativeTheme, setTitleBarOverlay } from '@re
 import { platform } from '@renderer/utils/init'
 import { TitleBarOverlayOptions } from 'electron'
 import SubStoreCard from '@renderer/components/sider/substore-card'
-import MihomoIcon from './components/base/mihomo-icon'
+import VpnIcon from './components/base/vpn-icon'
 import useSWR from 'swr'
 import ConfirmModal from '@renderer/components/base/base-confirm'
 
@@ -342,7 +342,7 @@ const App: React.FC = () => {
         <div style={{ width: `${narrowWidth}px` }} className="side h-full">
           <div className="app-drag flex justify-center items-center z-40 bg-transparent h-[45px]">
             {platform !== 'darwin' && (
-              <MihomoIcon className="h-[32px] leading-[32px] text-lg mx-px" />
+              <VpnIcon className="h-[32px] leading-[32px] text-lg mx-px" />
             )}
           </div>
           <div
@@ -383,7 +383,7 @@ const App: React.FC = () => {
               className={`flex justify-between p-2 ${!useWindowFrame && platform === 'darwin' ? 'ml-[60px]' : ''}`}
             >
               <div className="flex ml-1">
-                <h3 className="text-lg font-bold leading-[32px] bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">炫连VPN</h3>
+                <h3 className="text-lg font-bold leading-[32px] text-cyan-500">炫连VPN</h3>
               </div>
               {latest && latest.version && <UpdaterButton latest={latest} />}
               <Button

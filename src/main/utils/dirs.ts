@@ -62,23 +62,23 @@ export function themesDir(): string {
 
 export function mihomoIpcPath(): string {
   if (process.platform === 'win32') {
-    return '\\\\.\\pipe\\Sparkle\\mihomo'
+    return '\\\\.\\pipe\\XuanlianVPN\\mihomo'
   }
   const { core = 'mihomo' } = getAppConfigSync()
   if (core === 'system') {
-    return '/tmp/sparkle-mihomo-external.sock'
+    return '/tmp/xuanlian-vpn-mihomo-external.sock'
   }
   if (!checkCorePermissionSync(core as 'mihomo' | 'mihomo-alpha')) {
-    return '/tmp/sparkle-mihomo-api-noperm.sock'
+    return '/tmp/xuanlian-vpn-mihomo-api-noperm.sock'
   }
-  return '/tmp/sparkle-mihomo-api.sock'
+  return '/tmp/xuanlian-vpn-mihomo-api.sock'
 }
 
 export function serviceIpcPath(): string {
   if (process.platform === 'win32') {
-    return '\\\\.\\pipe\\sparkle\\service'
+    return '\\\\.\\pipe\\xuanlian-vpn\\service'
   }
-  return '/tmp/sparkle-service.sock'
+  return '/tmp/xuanlian-vpn-service.sock'
 }
 
 export function mihomoCoreDir(): string {

@@ -1,4 +1,5 @@
 import { Navigate } from 'react-router-dom'
+import Dashboard from '@renderer/pages/dashboard'
 import Override from '@renderer/pages/override'
 import Proxies from '@renderer/pages/proxies'
 import Rules from '@renderer/pages/rules'
@@ -14,6 +15,10 @@ import DNS from '@renderer/pages/dns'
 import Sniffer from '@renderer/pages/sniffer'
 import SubStore from '@renderer/pages/substore'
 const routes = [
+  {
+    path: '/dashboard',
+    element: <Dashboard />
+  },
   {
     path: '/mihomo',
     element: <Mihomo />
@@ -72,7 +77,7 @@ const routes = [
   },
   {
     path: '/',
-    element: <Navigate to="/proxies" />
+    element: <Navigate to="/dashboard" />
   }
 ]
 
